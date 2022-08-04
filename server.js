@@ -9,14 +9,14 @@ http
       q = url.parse(addr, true), // Previous url results are added to a new variable 'q'
       filePath = ""; // Empty string allows for file path storage. 
 
-    fs.appendFile(
+    fs.appendFile( // Allows for tracking when url's are visited. 
       "log.txt",
       "URL: " + addr + "\nTimestamp: " + new Date() + "\n\n",
-      (err) => {
+      (err) => { // Catching errors
         if (err) {
           console.log(err);
         } else {
-          console.log("Added to log.");
+          console.log("Added to log."); 
         }
       }
     );
