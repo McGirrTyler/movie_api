@@ -119,14 +119,11 @@ app.get("/movies/title/:title", (req, res) => {
   );
 });
 
-
-// Need to add code for multiple returns
-
-
 // Get data on movies within a certain year
 app.get("/movies/year/:year", (req, res) => {
   res.json(
     movies.filter((movie) => {
+      // .filter was used for multiple returns instead of .find
       return movie.year === req.params.year;
     })
   );
@@ -150,15 +147,6 @@ app.get("/movies/parentsguide/:parents_guide", (req, res) => {
   );
 });
 
-// Get data on movies within a certain genre
-app.get("/movies/genres/:genres", (req, res) => {
-  res.json(
-    movies.filter((movie) => {
-      return movie.genres === req.params.genres;
-    })
-  );
-});
-
 // DUAL REQUESTS
 
 // data on movies from a certain year and director
@@ -169,18 +157,6 @@ app.get("/movies/director/year/:director/:year", (req, res) => {
         return movie.director === req.params.director;
       },
       { return: movies.year === req.params.year }
-    )
-  );
-});
-
-// Data on movies from a certain year and genre
-app.get("/movies/year/genres/:year/:genres", (req, res) => {
-  res.json(
-    movies.filter(
-      (movie) => {
-        return movie.year === req.params.year;
-      },
-      { return: movies.genres === req.params.genres }
     )
   );
 });
