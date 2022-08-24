@@ -5,15 +5,71 @@
     <title>Documentation</title>
   </head>
   <body>
-    <h1>Documentation Page.</h1>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </p>
+    <h1>myFlix Documentation Page</h1>
+
+    <table>
+      <tr>
+        <th>Buisness Logic</th>
+        <th>URL</th>
+        <th>HTTP Method</th>
+        <th>Request body data format</th>
+        <th>Response body data format</th>
+      </tr>
+      <tr>
+        <td>Get a list of movies</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about all the movies</td>
+      </tr>
+      <tr>
+        <td>Get data on a movie by title</td>
+        <td>/movies/title/:title</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about a movie or movies with title</td>
+      </tr>
+      <tr>
+        <td>Get data on movies by release year</td>
+        <td>/movies/year/:year</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about movies from a certain year</td>
+      </tr>
+      <tr>
+        <td>Get data on movies by director</td>
+        <td>/movies/director/:director</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about movies from a certain director</td>
+      </tr>
+      <tr>
+        <td>Get data on movies by parental guide rating(</td>
+        <td>/movies/parentsguide/:parents_guide</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>
+          A JSON object holding data about movies with a certain parental guide
+          rating
+        </td>
+      </tr>
+      <tr>
+        <td>Get data on movies by director AND release year</td>
+        <td>/movies/director/year/:director/:year</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>
+          Get JSON object holding data about movies with a certain director AND
+          release year
+        </td>
+      </tr>
+      <tr>
+        <td>Post data about a new movie</td>
+        <td>/movies</td>
+        <td>POST</td>
+        <td></td>
+        <td>A JSON object holding data on new movie added</td>
+      </tr>
+    </table>
   </body>
 </html>

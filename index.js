@@ -2,7 +2,7 @@ const express = require("express"), //Import express and morgan.
   morgan = require("morgan"),
   fs = require("fs"), // fs and path import
   path = require("path"),
-  bodyParser = require("body-parser"),
+  bodyParser = require("body-parser"), // bodyParser and uuid Import
   uuid = require("uuid");
 const { repeat } = require("lodash");
 
@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 
 let movies = [
-  //Genres will be replaced with id
+  // Movie Array
   {
     title: "Avengers: Endgame",
     director: "Anthony Russo, Joe Russo",
@@ -113,7 +113,8 @@ app.get("/movies", (req, res) => {
 // Get data on a single movie by title
 app.get("/movies/title/:title", (req, res) => {
   res.json(
-    movies.find((movie) => {
+    movies.filter((movie) => {
+      // .filter was used for multiple returns instead of .find
       return movie.title === req.params.title;
     })
   );
@@ -123,13 +124,12 @@ app.get("/movies/title/:title", (req, res) => {
 app.get("/movies/year/:year", (req, res) => {
   res.json(
     movies.filter((movie) => {
-      // .filter was used for multiple returns instead of .find
       return movie.year === req.params.year;
     })
   );
 });
 
-// Get data movies from a certain director
+// Get data on movies from a certain director
 app.get("/movies/director/:director", (req, res) => {
   res.json(
     movies.filter((movie) => {
@@ -159,6 +159,19 @@ app.get("/movies/director/year/:director/:year", (req, res) => {
       { return: movies.year === req.params.year }
     )
   );
+});
+
+// Adding a new movie
+app.post("/movies", (req, res) => {
+  let newMovie = req.body;
+
+  if (!newMovie.title) {
+    const message = "Missing Title in request body";
+    res.status(400).send(message);
+  } else {
+    students.push(newStudent);
+    res.status(201).send(newStudent);
+  }
 });
 
 app.use(express.static("public"));
