@@ -126,7 +126,7 @@ app.get("/movies/title/:title", (req, res) => {
 // Get data on movies within a certain year
 app.get("/movies/year/:year", (req, res) => {
   res.json(
-    movies.find((movie) => {
+    movies.filter((movie) => {
       return movie.year === req.params.year;
     })
   );
@@ -135,7 +135,7 @@ app.get("/movies/year/:year", (req, res) => {
 // Get data movies from a certain director
 app.get("/movies/director/:director", (req, res) => {
   res.json(
-    movies.find((movie) => {
+    movies.filter((movie) => {
       return movie.director === req.params.director;
     })
   );
@@ -144,7 +144,7 @@ app.get("/movies/director/:director", (req, res) => {
 // Get data on movies with certain Parent Guide
 app.get("/movies/parentsguide/:parents_guide", (req, res) => {
   res.json(
-    movies.find((movie) => {
+    movies.filter((movie) => {
       return movie.parents_guide === req.params.parents_guide;
     })
   );
@@ -153,7 +153,7 @@ app.get("/movies/parentsguide/:parents_guide", (req, res) => {
 // Get data on movies within a certain genre
 app.get("/movies/genres/:genres", (req, res) => {
   res.json(
-    movies.find((movie) => {
+    movies.filter((movie) => {
       return movie.genres === req.params.genres;
     })
   );
@@ -164,7 +164,7 @@ app.get("/movies/genres/:genres", (req, res) => {
 // data on movies from a certain year and director
 app.get("/movies/director/year/:director/:year", (req, res) => {
   res.json(
-    movies.find(
+    movies.filter(
       (movie) => {
         return movie.director === req.params.director;
       },
@@ -176,7 +176,7 @@ app.get("/movies/director/year/:director/:year", (req, res) => {
 // Data on movies from a certain year and genre
 app.get("/movies/year/genres/:year/:genres", (req, res) => {
   res.json(
-    movies.find(
+    movies.filter(
       (movie) => {
         return movie.year === req.params.year;
       },
