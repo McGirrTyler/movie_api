@@ -1,3 +1,14 @@
+const mongoose = require("mongoose");
+const Models = require("./models.js");
+
+const Movies = Models.Movie;
+const Users = Models.User;
+
+mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
 const express = require("express"), //Import express and morgan.
   morgan = require("morgan"),
   fs = require("fs"), // fs and path import
@@ -5,94 +16,14 @@ const express = require("express"), //Import express and morgan.
   bodyParser = require("body-parser"), // bodyParser and uuid Import
   uuid = require("uuid");
 const { repeat } = require("lodash");
+const { runInNewContext } = require("vm");
+const req = require("express/lib/request");
+const res = require("express/lib/response.js");
 
 const app = express();
 
 app.use(bodyParser.json());
-
-let movies = [
-  // Movie Array
-  {
-    title: "Avengers: Endgame",
-    director: "Anthony Russo, Joe Russo",
-    year: "2019",
-    parents_guide: "PG-13",
-    runtime: "3hr and 1min",
-    genres: "Action, Adventure, Drama",
-  },
-  {
-    title: "Avatar",
-    director: "James Cameron",
-    year: "2009",
-    parents_guide: "PG-13",
-    runtime: "2hr and 42min",
-    genres: "Action, Adventure, Fantasy",
-  },
-  {
-    title: "Titanic",
-    director: "James Cameron",
-    year: "1997",
-    parents_guide: "PG-13",
-    runtime: "3hr 14min",
-    genres: "Drama, Romance",
-  },
-  {
-    title: "Star Wars: Episode VII - The Force Awakens",
-    director: "J.J. Abrams",
-    year: "2015",
-    parents_guide: "PG-15",
-    runtime: "2hr 18min",
-    genres: "Action, Adventure, Sci-Fi",
-  },
-  {
-    title: "Avengers: Infinity War",
-    director: "Anthony Russo, Joe Russo",
-    year: "2018",
-    parents_guide: "PG-13",
-    runtime: "2hr 29min",
-    genres: "Action, Adventure, Sci-Fi",
-  },
-  {
-    title: "Spider-Man: No Way Home",
-    director: "Jon Watts",
-    year: "2021",
-    parents_guide: "PG-13",
-    runtime: "2hr 28min",
-    genres: "Action, Adventure, Fantasy",
-  },
-  {
-    title: "Jurrasic World",
-    director: "Colin Trevorrow",
-    year: "2015",
-    parents_guide: "PG-13",
-    runtime: "2hr 14min",
-    genres: "Action, Adventure, Sci-Fi",
-  },
-  {
-    title: "The Lion King",
-    director: "Jon Favreau",
-    year: "2019",
-    parents_guide: "PG",
-    runtime: "1hr 58min",
-    genres: "Animation, Adventure, Drama",
-  },
-  {
-    title: "The Avengers",
-    director: "Joss Whedon",
-    year: "2012",
-    parents_guide: "PG-13",
-    runtime: "2hr 23min",
-    genres: "Action, Adventure, Sci-Fi",
-  },
-  {
-    title: "Furious 7",
-    director: "James Wan",
-    year: "2015",
-    parents_guide: "PG-13",
-    runtime: "2hr 17min",
-    genres: "Action, Crime, Thriller",
-  },
-];
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
@@ -102,76 +33,347 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
 app.use(morgan("combined", { stream: accessLogStream })); // Morgan default timestamp
 
 app.get("/", (req, res) => {
-  res.send("Welcome to my movie list!");
+  res.send("myFlix Movies API");
 });
 
-// Get data on movies
+// MOVIES REQUESTS
+
+//GET List of Movies
 app.get("/movies", (req, res) => {
-  res.json(movies);
-});
-
-// Get data on a single movie by title
-app.get("/movies/title/:title", (req, res) => {
-  res.json(
-    movies.filter((movie) => {
-      // .filter was used for multiple returns instead of .find
-      return movie.title === req.params.title;
+  Movies.find()
+    .then((movies) => {
+      res.status(201).json(movies);
     })
-  );
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
-// Get data on movies within a certain year
-app.get("/movies/year/:year", (req, res) => {
-  res.json(
-    movies.filter((movie) => {
-      return movie.year === req.params.year;
+//GET Movie by Title
+app.get("/movies/:Title", (req, res) => {
+  Movies.findOne({ Title: req.params.Title })
+    .then((movie) => {
+      res.json(movie);
     })
-  );
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
-// Get data on movies from a certain director
-app.get("/movies/director/:director", (req, res) => {
-  res.json(
-    movies.filter((movie) => {
-      return movie.director === req.params.director;
+//GET List of Movies by Genre
+app.get("/movies/:Genres", (req, res) => { //Null
+  //DOES NOT WORK
+  Movies.find({ Genres: req.params.Genres })
+    .then((movies) => {
+      res.json(movies);
     })
-  );
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
-// Get data on movies with certain Parent Guide
-app.get("/movies/parentsguide/:parents_guide", (req, res) => {
-  res.json(
-    movies.filter((movie) => {
-      return movie.parents_guide === req.params.parents_guide;
+//GET List of Movies by Director
+/*
+  app.get("movies/:Director.Name", (req, res) => {
+    Movies.find({ Director:Name:  req.params.Director.Name })
+    .then((movies) => {
+      res.json(movies);
     })
-  );
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+  }); */
+
+//GET List of Movies by Writer
+app.get("/movies/:Writers", (req, res) => { //Null
+  //
+  Movies.find({ Wrtiers: req.params.Writers })
+    .then((movies) => {
+      res.json(movies);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
-// DUAL REQUESTS
+//GET List of Movies by Actor
+app.get("/movies/:TopActors", (req, res) => { //Null
+  Movies.find({ TopActors: req.params.TopActors })
+    .then((movies) => {
+      res.json(movies);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
-// data on movies from a certain year and director
-app.get("/movies/director/year/:director/:year", (req, res) => {
-  res.json(
-    movies.filter(
-      (movie) => {
-        return movie.director === req.params.director;
+//GET List of Movies by Ratings
+app.get("/movies/:Ratings", (req, res) => { //Null
+  Movies.find({ Ratings: req.params.Ratings })
+    .then((movies) => {
+      res.json(movies);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+
+//Create Requests
+
+//Create New Movie
+/* JSON Format
+    {
+      ID: Integer,
+      Title: String,
+      Description: String,
+      Genres: [Array],
+      Director: {
+        Name: String,
+        Birthdate: Date
       },
-      { return: movies.year === req.params.year }
-    )
+      Writers: [Array],
+      TopActors: [Array],
+      Rating: String,
+      Runtime: String,
+      ImagePath, String,
+      Featured: Boolean
+    }*/
+app.post("/movies", (req, res) => {
+  Movies.findOne({ Title: req.body.Title })
+    .then((movie) => {
+      if (movie) {
+        return res
+          .status(400)
+          .send(req.body.Title + "This movie is already in our database!");
+      } else {
+        Movies.create({
+          Title: req.body.Title,
+          Description: req.body.Description,
+          Genres: req.body.Genres,
+          Director: req.body.Director,
+          Writers: req.body.Writers,
+          TopActors: req.body.TopActors,
+          Rating: req.body.Rating,
+          Runtime: req.body.Runtime,
+          ImagePath: req.body.ImagePath,
+          Featured: req.body.Featured,
+        })
+          .then((newMovie) => {
+            res.status(201).json(newMovie);
+          })
+          .catch((err) => {
+            console.error(err);
+            res.status(500).send("Error: " + err);
+          });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+
+//Upadate Requests
+/* JSON Format
+  {
+    Title: String, REQUIRED
+      Description: String, REQUIRED
+      Genres: [Array],
+      Director: {
+        Name: String,
+        Birthdate: Date
+      },
+      Writers: [Array],
+      TopActors: [Array], REQUIRED
+      Rating: String, REQUIRED
+      Runtime: String,
+      ImagePath, String,
+      Featured: Boolean
+  }*/
+
+//Update Movies by Title
+app.put("/movies/:Title", (req, res) => {
+  Movies.findOneAndUpdate(
+    { Title: req.params.Title },
+    {
+      $set: {
+        Title: req.body.Title,
+        Description: req.body.Description,
+        Genres: req.body.Genres,
+        Director: {
+          Name: req.body.Name,
+          Birthdate: req.body.Birthdate,
+        },
+        Writers: req.body.Writers,
+        TopActors: req.body.TopActors,
+        Rating: req.body.Rating,
+        Runtime: req.body.Runtime,
+        ImagePath: req.body.ImagePath,
+        Featured: req.body.Featured,
+      },
+    },
+    { new: true }, //Ensures updated document is returned
+    (err, updatedMovie) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedMovie);
+      }
+    }
   );
 });
 
-// Adding a new movie
-app.post("/movies", (req, res) => {
-  let newMovie = req.body;
+//Delete Requests
+//Deleting a Movie
+app.delete("/movies/:Title", (req, res) => {
+  Movies.findOneAndRemove({ Title: req.params.Title })
+    .then((movie) => {
+      if (!movie) {
+        res.status(400).send(req.params.Title + " was not found");
+      } else {
+        res.status(200).send(req.params.Title + " was deleted.");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
-  if (!newMovie.title) {
-    const message = "Missing Title in request body";
-    res.status(400).send(message);
-  } else {
-    students.push(newStudent);
-    res.status(201).send(newStudent);
-  }
+// USERS
+
+//GET List of Users
+app.get("/users", (req, res) => {
+  Users.find()
+    .then((users) => {
+      res.status(201).json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+
+//GET User by Username
+app.get("/users/:Username", (req, res) => {
+  Users.findOne({ Username: req.params.Username })
+    .then((user) => {
+      res.status(201).json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+
+//CREATE Requests
+
+//Creating New User
+app.post("/users", (req, res) => {
+  Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res
+          .status(400)
+          .send(req.body.Username + "This Username already exists!");
+      } else {
+        Users.create({
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        })
+          .then((newUser) => {
+            res.status(201).json(newUser);
+          })
+          .catch((err) => {
+            console.error(err);
+            res.status(500).send("Error: " + err);
+          });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+
+//Update
+
+//Update User by Username
+/* JSON FORMATE
+{
+  Username: String, REQUIRED
+  Password: String, REQUIRED
+  Email: String, REQUIRED
+  Birthday: Date
+}*/
+app.put("/users/:Username", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $set: {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday,
+      },
+    },
+    { new: true }, // Ensures updated document is returned
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
+});
+
+//UPDATE Users Favorite Movies
+app.post("/users/:Username/movies/:MovieID", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $push: { FavoriteMovies: req.params.MovieID },
+    },
+    { new: true }, // Ensures Updated Document is Returened
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
+});
+
+//Delete
+
+// DELETE User bu Username
+app.delete("/users/:Username", (req, res) => {
+  Users.findOneAndRemove({ Username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.Username + " was not found");
+      } else {
+        res.status(200).send(req.params.Username + " was deleted.");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 app.use(express.static("public"));
