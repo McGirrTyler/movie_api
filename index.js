@@ -63,7 +63,7 @@ app.get("/movies/:Title", (req, res) => {
 });
 
 //GET List of Movies by Genre
-app.get("/movies/:Genres", (req, res) => { //Null
+app.get("/movies/genre/:Genres", (req, res) => {
   //DOES NOT WORK
   Movies.find({ Genres: req.params.Genres })
     .then((movies) => {
@@ -76,9 +76,8 @@ app.get("/movies/:Genres", (req, res) => { //Null
 });
 
 //GET List of Movies by Director
-/*
-  app.get("movies/:Director.Name", (req, res) => {
-    Movies.find({ Director:Name:  req.params.Director.Name })
+app.get("/movies/director/:Director", (req, res) => {
+  Movies.find({ Director: req.params.Director })
     .then((movies) => {
       res.json(movies);
     })
@@ -86,11 +85,10 @@ app.get("/movies/:Genres", (req, res) => { //Null
       console.error(err);
       res.status(500).send("Error: " + err);
     });
-  }); */
+});
 
 //GET List of Movies by Writer
-app.get("/movies/:Writers", (req, res) => { //Null
-  //
+app.get("/movies/writer/:Writers", (req, res) => {
   Movies.find({ Wrtiers: req.params.Writers })
     .then((movies) => {
       res.json(movies);
@@ -102,7 +100,8 @@ app.get("/movies/:Writers", (req, res) => { //Null
 });
 
 //GET List of Movies by Actor
-app.get("/movies/:TopActors", (req, res) => { //Null
+app.get("/movies/actor/:TopActors", (req, res) => {
+  //Null
   Movies.find({ TopActors: req.params.TopActors })
     .then((movies) => {
       res.json(movies);
@@ -114,7 +113,8 @@ app.get("/movies/:TopActors", (req, res) => { //Null
 });
 
 //GET List of Movies by Ratings
-app.get("/movies/:Ratings", (req, res) => { //Null
+app.get("/movies/rating/:Ratings", (req, res) => {
+  //Null
   Movies.find({ Ratings: req.params.Ratings })
     .then((movies) => {
       res.json(movies);
@@ -134,10 +134,7 @@ app.get("/movies/:Ratings", (req, res) => { //Null
       Title: String,
       Description: String,
       Genres: [Array],
-      Director: {
-        Name: String,
-        Birthdate: Date
-      },
+      Director: [Array]
       Writers: [Array],
       TopActors: [Array],
       Rating: String,
@@ -186,10 +183,7 @@ app.post("/movies", (req, res) => {
     Title: String, REQUIRED
       Description: String, REQUIRED
       Genres: [Array],
-      Director: {
-        Name: String,
-        Birthdate: Date
-      },
+      Director: [String],
       Writers: [Array],
       TopActors: [Array], REQUIRED
       Rating: String, REQUIRED
@@ -276,7 +270,7 @@ app.get("/users/:Username", (req, res) => {
 
 //CREATE Requests
 
-//Creating New User
+//Create new User
 app.post("/users", (req, res) => {
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
@@ -308,7 +302,7 @@ app.post("/users", (req, res) => {
 
 //Update
 
-//Update User by Username
+//Update User info by Username
 /* JSON FORMATE
 {
   Username: String, REQUIRED
@@ -360,7 +354,7 @@ app.post("/users/:Username/movies/:MovieID", (req, res) => {
 
 //Delete
 
-// DELETE User bu Username
+// DELETE User Deregister
 app.delete("/users/:Username", (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {

@@ -3,11 +3,26 @@
   <head>
     <meta charset="utf-8" />
     <title>Documentation</title>
+    <style>
+      html {
+    font-size: 18px;
+  }
+
+  body {
+    background-color: #333;
+    color: whitesmoke;
+  }
+    </style>
   </head>
+
   <body>
+
     <h1>myFlix Documentation Page</h1>
 
+    <hr>
+
     <table>
+
       <tr>
         <th>Buisness Logic</th>
         <th>URL</th>
@@ -15,61 +30,429 @@
         <th>Request body data format</th>
         <th>Response body data format</th>
       </tr>
+      
+
       <tr>
-        <td>Get a list of movies</td>
+        <td> GET API Welcome Text</td> 
+        <td>/</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>Text</td>
+      </tr>
+
+      <tr>
+        <td>Get List of Every Movies</td>
         <td>/movies</td>
         <td>GET</td>
         <td>None</td>
-        <td>A JSON object holding data about all the movies</td>
+        <td>
+          <br>
+          Title: <em>String</em>,
+          <br>
+          Description: <em>String</em>,
+          <br>
+          Genres: <em>[ String ]</em>,
+          <br>
+          Director: <em>[ String ]</em>,
+          <br>
+          Writers: <em>[ String ]</em>,
+          <br>
+          TopActors: [<em>String</em>],
+          <br>
+          Rating: <em>String</em>,
+          <br>
+          Runtime: <em>String</em>,
+          <br>
+          ImagePath: <em>String</em>,
+          <br>
+          Featured: <em>Boolean</em>,
+        </td>
       </tr>
+
       <tr>
         <td>Get data on a movie by title</td>
         <td>/movies/title/:title</td>
         <td>GET</td>
-        <td>None</td>
-        <td>A JSON object holding data about a movie or movies with title</td>
-      </tr>
-      <tr>
-        <td>Get data on movies by release year</td>
-        <td>/movies/year/:year</td>
-        <td>GET</td>
-        <td>None</td>
-        <td>A JSON object holding data about movies from a certain year</td>
-      </tr>
-      <tr>
-        <td>Get data on movies by director</td>
-        <td>/movies/director/:director</td>
-        <td>GET</td>
-        <td>None</td>
-        <td>A JSON object holding data about movies from a certain director</td>
-      </tr>
-      <tr>
-        <td>Get data on movies by parental guide rating(</td>
-        <td>/movies/parentsguide/:parents_guide</td>
-        <td>GET</td>
-        <td>None</td>
+        <td> title/req.params.Title</td>
         <td>
-          A JSON object holding data about movies with a certain parental guide
-          rating
+          <br>
+          Title: <em>String</em>,
+          <br>
+          Description: <em>String</em>,
+          <br>
+          Genres: <em>[ String ]</em>,
+          <br>
+          Director: <em>[ String ]</em>,
+          <br>
+          Writers: <em>[ String ]</em>,
+          <br>
+          TopActors: [<em>String</em>],
+          <br>
+          Rating: <em>String</em>,
+          <br>
+          Runtime: <em>String</em>,
+          <br>
+          ImagePath: <em>String</em>,
+          <br>
+          Featured: <em>Boolean</em>,
         </td>
       </tr>
+
       <tr>
-        <td>Get data on movies by director AND release year</td>
-        <td>/movies/director/year/:director/:year</td>
+        <td>GET List of Movies by Genres</td>
+        <td>/movies/genres/:Genres</td>
         <td>GET</td>
-        <td>None</td>
+        <td>genres/req.params.Genres</td>
         <td>
-          Get JSON object holding data about movies with a certain director AND
-          release year
+          <br>
+          Title: <em>String</em>,
+          <br>
+          Description: <em>String</em>,
+          <br>
+          Genres: <em>[ String ]</em>,
+          <br>
+          Director: <em>[ String ]</em>,
+          <br>
+          Writers: <em>[ String ]</em>,
+          <br>
+          TopActors: [<em>String</em>],
+          <br>
+          Rating: <em>String</em>,
+          <br>
+          Runtime: <em>String</em>,
+          <br>
+          ImagePath: <em>String</em>,
+          <br>
+          Featured: <em>Boolean</em>,
         </td>
       </tr>
+
       <tr>
-        <td>Post data about a new movie</td>
+        <td>GET List of Movies by Director</td>
+        <td>/movies/director/:Director</td>
+        <td>GET</td>
+        <td>/director/req.params.Director</td>
+        <td>
+          <br>
+          Title: <em>String</em>,
+          <br>
+          Description: <em>String</em>,
+          <br>
+          Genres: <em>[ String ]</em>,
+          <br>
+          Director: <em>[ String ]</em>,
+          <br>
+          Writers: <em>[ String ]</em>,
+          <br>
+          TopActors: [<em>String</em>],
+          <br>
+          Rating: <em>String</em>,
+          <br>
+          Runtime: <em>String</em>,
+          <br>
+          ImagePath: <em>String</em>,
+          <br>
+          Featured: <em>Boolean</em>,
+        </td>
+      </tr>
+
+      <tr>
+        <td>GET List of Movies by Writer</td>
+        <td>/movies/writer/:Writers</td>
+        <td>GET</td>
+        <td>/writer/req.params.Writers</td>
+        <td>
+          <br>
+          Title: <em>String</em>,
+          <br>
+          Description: <em>String</em>,
+          <br>
+          Genres: <em>[ String ]</em>,
+          <br>
+          Director: <em>[ String ]</em>,
+          <br>
+          Writers: <em>[ String ]</em>,
+          <br>
+          TopActors: [<em>String</em>],
+          <br>
+          Rating: <em>String</em>,
+          <br>
+          Runtime: <em>String</em>,
+          <br>
+          ImagePath: <em>String</em>,
+          <br>
+          Featured: <em>Boolean</em>,
+        </td>
+      </tr>
+
+      <tr>
+        <td>GET List of Movies by Actor</td>
+        <td>/movies/actor/:TopActors</td>
+        <td>GET</td>
+        <td>/actor/req.params.TopActors</td>
+        <td>
+          <br>
+          Title: <em>String</em>,
+          <br>
+          Description: <em>String</em>,
+          <br>
+          Genres: <em>[ String ]</em>,
+          <br>
+          Director: <em>[ String ]</em>,
+          <br>
+          Writers: <em>[ String ]</em>,
+          <br>
+          TopActors: [<em>String</em>],
+          <br>
+          Rating: <em>String</em>,
+          <br>
+          Runtime: <em>String</em>,
+          <br>
+          ImagePath: <em>String</em>,
+          <br>
+          Featured: <em>Boolean</em>,
+        </td>
+      </tr>
+
+      <tr>
+        <td>GET List of Movies by Ratings</td>
+        <td>/movies/rating/:Ratings</td>
+        <td>GET</td>
+        <td>/rating/req.params.Ratings</td>
+        <td>
+          <br>
+          Title: <em>String</em>,
+          <br>
+          Description: <em>String</em>,
+          <br>
+          Genres: <em>[ String ]</em>,
+          <br>
+          Director: <em>[ String ]</em>,
+          <br>
+          Writers: <em>[ String ]</em>,
+          <br>
+          TopActors: [<em>String</em>],
+          <br>
+          Rating: <em>String</em>,
+          <br>
+          Runtime: <em>String</em>,
+          <br>
+          ImagePath: <em>String</em>,
+          <br>
+          Featured: <em>Boolean</em>,
+        </td>
+      </tr>
+
+      <tr>
+        <td>CREATE a New Movie</td>
         <td>/movies</td>
         <td>POST</td>
-        <td></td>
-        <td>A JSON object holding data on new movie added</td>
+        <td><br>
+          Title: <em>String</em>,
+          <br>
+          Description: <em>String</em>,
+          <br>
+          Genres: <em>[ String ]</em>,
+          <br>
+          Director: <em>[ String ]</em>,
+          <br>
+          Writers: <em>[ String ]</em>,
+          <br>
+          TopActors: [<em>String</em>],
+          <br>
+          Rating: <em>String</em>,
+          <br>
+          Runtime: <em>String</em>,
+          <br>
+          ImagePath: <em>String</em>,
+          <br>
+          Featured: <em>Boolean</em>,
+        </td>
+        <td>
+          <br>
+          Title: <em>String</em>,
+          <br>
+          Description: <em>String</em>,
+          <br>
+          Genres: <em>[ String ]</em>,
+          <br>
+          Director: <em>[ String ]</em>,
+          <br>
+          Writers: <em>[ String ]</em>,
+          <br>
+          TopActors: [<em>String</em>],
+          <br>
+          Rating: <em>String</em>,
+          <br>
+          Runtime: <em>String</em>,
+          <br>
+          ImagePath: <em>String</em>,
+          <br>
+          Featured: <em>Boolean</em>,
+        </td>
       </tr>
+
+      <tr>
+        <td>UPDATE Existing Movie</td>
+        <td>/movies/:Title</td>
+        <td>PUT</td>
+        <td><br>
+          Title: <em>String</em>,
+          <br>
+          Description: <em>String</em>,
+          <br>
+          Genres: <em>[ String ]</em>,
+          <br>
+          Director: <em>[ String ]</em>,
+          <br>
+          Writers: <em>[ String ]</em>,
+          <br>
+          TopActors: [<em>String</em>],
+          <br>
+          Rating: <em>String</em>,
+          <br>
+          Runtime: <em>String</em>,
+          <br>
+          ImagePath: <em>String</em>,
+          <br>
+          Featured: <em>Boolean</em>,
+        </td>
+        <td>
+          <br>
+          Title: <em>String</em>,
+          <br>
+          Description: <em>String</em>,
+          <br>
+          Genres: <em>[ String ]</em>,
+          <br>
+          Director: <em>[ String ]</em>,
+          <br>
+          Writers: <em>[ String ]</em>,
+          <br>
+          TopActors: [<em>String</em>],
+          <br>
+          Rating: <em>String</em>,
+          <br>
+          Runtime: <em>String</em>,
+          <br>
+          ImagePath: <em>String</em>,
+          <br>
+          Featured: <em>Boolean</em>,
+        </td>
+      </tr>
+
+      <tr>
+        <td>DELETE Existing Movie</td>
+        <td>/movies/:Title</td>
+        <td>DELETE</td>
+        <td>movies/req.params.Title</td>
+        <td>Text</td>
+      </tr>
+
+      <tr>
+        <td>GET List of Users</td>
+        <td>/users</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>
+          <br>
+          Username: <em>String</em>
+          <br>
+          Password: <em>String</em>
+          <br>
+          Email: <em>String</em>
+          <br>
+          FavoriteMovies: <em>[Array]</em>
+        </td>
+      </tr>
+
+      <tr>
+        <td>CREATE New User</td>
+        <td>/users</td>
+        <td>POST</td>
+        <td>
+          <br>
+          Username: <em>String</em>
+          <br>
+          Password: <em>String</em>
+          <br>
+          Email: <em>String</em>
+          <br>
+          FavoriteMovies: <em>[Array]</em>
+        </td>
+        <td>
+          <br>
+          Username: <em>String</em>
+          <br>
+          Password: <em>String</em>
+          <br>
+          Email: <em>String</em>
+          <br>
+          FavoriteMovies: <em>[Array]</em>
+        </td>
+      </tr>
+
+      <tr>
+        <td>UPDATE Existing User</td>
+        <td>/users/:Username</td>
+        <td>PUT</td>
+        <td>
+          <br>
+          Username: <em>String</em>
+          <br>
+          Password: <em>String</em>
+          <br>
+          Email: <em>String</em>
+          <br>
+          FavoriteMovies: <em>[Array]</em>
+        </td>
+        <td>
+          <br>
+          Username: <em>String</em>
+          <br>
+          Password: <em>String</em>
+          <br>
+          Email: <em>String</em>
+          <br>
+          FavoriteMovies: <em>[Array]</em>
+        </td>
+      </tr>
+
+      <tr>
+        <td>UPDATE Existing User FavoriteMovies</td>
+        <td>/users/:Username.movies/:MovieID</td>
+        <td>PUT</td>
+        <td>
+          <br>
+          Username: <em>String</em>
+          <br>
+          Password: <em>String</em>
+          <br>
+          Email: <em>String</em>
+          <br>
+          FavoriteMovies: <em>[Array]</em>
+        </td>
+        <td>
+          <br>
+          Username: <em>String</em>
+          <br>
+          Password: <em>String</em>
+          <br>
+          Email: <em>String</em>
+          <br>
+          FavoriteMovies: <em>[Array]</em>
+        </td>
+      </tr>
+
+      <tr>
+        <td>DELETE Existing User</td>
+        <td>/users/:Username</td>
+        <td>DELETE</td>
+        <td>/users/req.params.Username</td>
+        <td>Text</td>
+      </tr>
+
     </table>
+
   </body>
 </html>
