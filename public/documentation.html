@@ -5,24 +5,22 @@
     <title>Documentation</title>
     <style>
       html {
-    font-size: 18px;
-  }
+        font-size: 18px;
+      }
 
-  body {
-    background-color: #333;
-    color: whitesmoke;
-  }
+      body {
+        background-color: #333;
+        color: whitesmoke;
+      }
     </style>
   </head>
 
   <body>
-
     <h1>myFlix Documentation Page</h1>
 
-    <hr>
+    <hr />
 
     <table>
-
       <tr>
         <th>Buisness Logic</th>
         <th>URL</th>
@@ -30,10 +28,9 @@
         <th>Request body data format</th>
         <th>Response body data format</th>
       </tr>
-      
 
       <tr>
-        <td> GET API Welcome Text</td> 
+        <td>GET API Welcome Text</td>
         <td>/</td>
         <td>GET</td>
         <td>None</td>
@@ -46,25 +43,25 @@
         <td>GET</td>
         <td>None</td>
         <td>
-          <br>
+          <br />
           Title: <em>String</em>,
-          <br>
+          <br />
           Description: <em>String</em>,
-          <br>
+          <br />
           Genres: <em>[ String ]</em>,
-          <br>
+          <br />
           Director: <em>[ String ]</em>,
-          <br>
+          <br />
           Writers: <em>[ String ]</em>,
-          <br>
+          <br />
           TopActors: [<em>String</em>],
-          <br>
+          <br />
           Rating: <em>String</em>,
-          <br>
+          <br />
           Runtime: <em>String</em>,
-          <br>
+          <br />
           ImagePath: <em>String</em>,
-          <br>
+          <br />
           Featured: <em>Boolean</em>,
         </td>
       </tr>
@@ -73,27 +70,27 @@
         <td>Get data on a movie by title</td>
         <td>/movies/title/:title</td>
         <td>GET</td>
-        <td> title/req.params.Title</td>
+        <td>title/req.params.Title</td>
         <td>
-          <br>
+          <br />
           Title: <em>String</em>,
-          <br>
+          <br />
           Description: <em>String</em>,
-          <br>
+          <br />
           Genres: <em>[ String ]</em>,
-          <br>
+          <br />
           Director: <em>[ String ]</em>,
-          <br>
+          <br />
           Writers: <em>[ String ]</em>,
-          <br>
+          <br />
           TopActors: [<em>String</em>],
-          <br>
+          <br />
           Rating: <em>String</em>,
-          <br>
+          <br />
           Runtime: <em>String</em>,
-          <br>
+          <br />
           ImagePath: <em>String</em>,
-          <br>
+          <br />
           Featured: <em>Boolean</em>,
         </td>
       </tr>
@@ -104,25 +101,25 @@
         <td>GET</td>
         <td>genres/req.params.Genres</td>
         <td>
-          <br>
+          <br />
           Title: <em>String</em>,
-          <br>
+          <br />
           Description: <em>String</em>,
-          <br>
+          <br />
           Genres: <em>[ String ]</em>,
-          <br>
+          <br />
           Director: <em>[ String ]</em>,
-          <br>
+          <br />
           Writers: <em>[ String ]</em>,
-          <br>
+          <br />
           TopActors: [<em>String</em>],
-          <br>
+          <br />
           Rating: <em>String</em>,
-          <br>
+          <br />
           Runtime: <em>String</em>,
-          <br>
+          <br />
           ImagePath: <em>String</em>,
-          <br>
+          <br />
           Featured: <em>Boolean</em>,
         </td>
       </tr>
@@ -133,25 +130,25 @@
         <td>GET</td>
         <td>/director/req.params.Director</td>
         <td>
-          <br>
+          <br />
           Title: <em>String</em>,
-          <br>
+          <br />
           Description: <em>String</em>,
-          <br>
+          <br />
           Genres: <em>[ String ]</em>,
-          <br>
+          <br />
           Director: <em>[ String ]</em>,
-          <br>
+          <br />
           Writers: <em>[ String ]</em>,
-          <br>
+          <br />
           TopActors: [<em>String</em>],
-          <br>
+          <br />
           Rating: <em>String</em>,
-          <br>
+          <br />
           Runtime: <em>String</em>,
-          <br>
+          <br />
           ImagePath: <em>String</em>,
-          <br>
+          <br />
           Featured: <em>Boolean</em>,
         </td>
       </tr>
@@ -162,25 +159,25 @@
         <td>GET</td>
         <td>/writer/req.params.Writers</td>
         <td>
-          <br>
+          <br />
           Title: <em>String</em>,
-          <br>
+          <br />
           Description: <em>String</em>,
-          <br>
+          <br />
           Genres: <em>[ String ]</em>,
-          <br>
+          <br />
           Director: <em>[ String ]</em>,
-          <br>
+          <br />
           Writers: <em>[ String ]</em>,
-          <br>
+          <br />
           TopActors: [<em>String</em>],
-          <br>
+          <br />
           Rating: <em>String</em>,
-          <br>
+          <br />
           Runtime: <em>String</em>,
-          <br>
+          <br />
           ImagePath: <em>String</em>,
-          <br>
+          <br />
           Featured: <em>Boolean</em>,
         </td>
       </tr>
@@ -191,25 +188,25 @@
         <td>GET</td>
         <td>/actor/req.params.TopActors</td>
         <td>
-          <br>
+          <br />
           Title: <em>String</em>,
-          <br>
+          <br />
           Description: <em>String</em>,
-          <br>
+          <br />
           Genres: <em>[ String ]</em>,
-          <br>
+          <br />
           Director: <em>[ String ]</em>,
-          <br>
+          <br />
           Writers: <em>[ String ]</em>,
-          <br>
+          <br />
           TopActors: [<em>String</em>],
-          <br>
+          <br />
           Rating: <em>String</em>,
-          <br>
+          <br />
           Runtime: <em>String</em>,
-          <br>
+          <br />
           ImagePath: <em>String</em>,
-          <br>
+          <br />
           Featured: <em>Boolean</em>,
         </td>
       </tr>
@@ -220,25 +217,25 @@
         <td>GET</td>
         <td>/rating/req.params.Ratings</td>
         <td>
-          <br>
+          <br />
           Title: <em>String</em>,
-          <br>
+          <br />
           Description: <em>String</em>,
-          <br>
+          <br />
           Genres: <em>[ String ]</em>,
-          <br>
+          <br />
           Director: <em>[ String ]</em>,
-          <br>
+          <br />
           Writers: <em>[ String ]</em>,
-          <br>
+          <br />
           TopActors: [<em>String</em>],
-          <br>
+          <br />
           Rating: <em>String</em>,
-          <br>
+          <br />
           Runtime: <em>String</em>,
-          <br>
+          <br />
           ImagePath: <em>String</em>,
-          <br>
+          <br />
           Featured: <em>Boolean</em>,
         </td>
       </tr>
@@ -247,47 +244,48 @@
         <td>CREATE a New Movie</td>
         <td>/movies</td>
         <td>POST</td>
-        <td><br>
+        <td>
+          <br />
           Title: <em>String</em>,
-          <br>
+          <br />
           Description: <em>String</em>,
-          <br>
+          <br />
           Genres: <em>[ String ]</em>,
-          <br>
+          <br />
           Director: <em>[ String ]</em>,
-          <br>
+          <br />
           Writers: <em>[ String ]</em>,
-          <br>
+          <br />
           TopActors: [<em>String</em>],
-          <br>
+          <br />
           Rating: <em>String</em>,
-          <br>
+          <br />
           Runtime: <em>String</em>,
-          <br>
+          <br />
           ImagePath: <em>String</em>,
-          <br>
+          <br />
           Featured: <em>Boolean</em>,
         </td>
         <td>
-          <br>
+          <br />
           Title: <em>String</em>,
-          <br>
+          <br />
           Description: <em>String</em>,
-          <br>
+          <br />
           Genres: <em>[ String ]</em>,
-          <br>
+          <br />
           Director: <em>[ String ]</em>,
-          <br>
+          <br />
           Writers: <em>[ String ]</em>,
-          <br>
+          <br />
           TopActors: [<em>String</em>],
-          <br>
+          <br />
           Rating: <em>String</em>,
-          <br>
+          <br />
           Runtime: <em>String</em>,
-          <br>
+          <br />
           ImagePath: <em>String</em>,
-          <br>
+          <br />
           Featured: <em>Boolean</em>,
         </td>
       </tr>
@@ -296,57 +294,50 @@
         <td>UPDATE Existing Movie</td>
         <td>/movies/:Title</td>
         <td>PUT</td>
-        <td><br>
+        <td>
+          <br />
           Title: <em>String</em>,
-          <br>
+          <br />
           Description: <em>String</em>,
-          <br>
+          <br />
           Genres: <em>[ String ]</em>,
-          <br>
+          <br />
           Director: <em>[ String ]</em>,
-          <br>
+          <br />
           Writers: <em>[ String ]</em>,
-          <br>
+          <br />
           TopActors: [<em>String</em>],
-          <br>
+          <br />
           Rating: <em>String</em>,
-          <br>
+          <br />
           Runtime: <em>String</em>,
-          <br>
+          <br />
           ImagePath: <em>String</em>,
-          <br>
+          <br />
           Featured: <em>Boolean</em>,
         </td>
         <td>
-          <br>
+          <br />
           Title: <em>String</em>,
-          <br>
+          <br />
           Description: <em>String</em>,
-          <br>
+          <br />
           Genres: <em>[ String ]</em>,
-          <br>
+          <br />
           Director: <em>[ String ]</em>,
-          <br>
+          <br />
           Writers: <em>[ String ]</em>,
-          <br>
+          <br />
           TopActors: [<em>String</em>],
-          <br>
+          <br />
           Rating: <em>String</em>,
-          <br>
+          <br />
           Runtime: <em>String</em>,
-          <br>
+          <br />
           ImagePath: <em>String</em>,
-          <br>
+          <br />
           Featured: <em>Boolean</em>,
         </td>
-      </tr>
-
-      <tr>
-        <td>DELETE Existing Movie</td>
-        <td>/movies/:Title</td>
-        <td>DELETE</td>
-        <td>movies/req.params.Title</td>
-        <td>Text</td>
       </tr>
 
       <tr>
@@ -355,13 +346,13 @@
         <td>GET</td>
         <td>None</td>
         <td>
-          <br>
+          <br />
           Username: <em>String</em>
-          <br>
+          <br />
           Password: <em>String</em>
-          <br>
+          <br />
           Email: <em>String</em>
-          <br>
+          <br />
           FavoriteMovies: <em>[Array]</em>
         </td>
       </tr>
@@ -371,23 +362,23 @@
         <td>/users</td>
         <td>POST</td>
         <td>
-          <br>
+          <br />
           Username: <em>String</em>
-          <br>
+          <br />
           Password: <em>String</em>
-          <br>
+          <br />
           Email: <em>String</em>
-          <br>
+          <br />
           FavoriteMovies: <em>[Array]</em>
         </td>
         <td>
-          <br>
+          <br />
           Username: <em>String</em>
-          <br>
+          <br />
           Password: <em>String</em>
-          <br>
+          <br />
           Email: <em>String</em>
-          <br>
+          <br />
           FavoriteMovies: <em>[Array]</em>
         </td>
       </tr>
@@ -397,23 +388,23 @@
         <td>/users/:Username</td>
         <td>PUT</td>
         <td>
-          <br>
+          <br />
           Username: <em>String</em>
-          <br>
+          <br />
           Password: <em>String</em>
-          <br>
+          <br />
           Email: <em>String</em>
-          <br>
+          <br />
           FavoriteMovies: <em>[Array]</em>
         </td>
         <td>
-          <br>
+          <br />
           Username: <em>String</em>
-          <br>
+          <br />
           Password: <em>String</em>
-          <br>
+          <br />
           Email: <em>String</em>
-          <br>
+          <br />
           FavoriteMovies: <em>[Array]</em>
         </td>
       </tr>
@@ -423,23 +414,23 @@
         <td>/users/:Username.movies/:MovieID</td>
         <td>PUT</td>
         <td>
-          <br>
+          <br />
           Username: <em>String</em>
-          <br>
+          <br />
           Password: <em>String</em>
-          <br>
+          <br />
           Email: <em>String</em>
-          <br>
+          <br />
           FavoriteMovies: <em>[Array]</em>
         </td>
         <td>
-          <br>
+          <br />
           Username: <em>String</em>
-          <br>
+          <br />
           Password: <em>String</em>
-          <br>
+          <br />
           Email: <em>String</em>
-          <br>
+          <br />
           FavoriteMovies: <em>[Array]</em>
         </td>
       </tr>
@@ -451,8 +442,6 @@
         <td>/users/req.params.Username</td>
         <td>Text</td>
       </tr>
-
     </table>
-
   </body>
 </html>

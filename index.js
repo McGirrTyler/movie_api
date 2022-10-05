@@ -25,6 +25,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+let auth = require("./auth")(app);
+const passport = require("passport");
+require("./passport");
+
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
 });
@@ -39,7 +43,7 @@ app.get("/", (req, res) => {
 // MOVIES REQUESTS
 
 //GET List of Movies
-app.get("/movies", (req, res) => {
+app.get("/movies", passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
@@ -89,7 +93,7 @@ app.get("/movies/director/:Director", (req, res) => {
 
 //GET List of Movies by Writer
 app.get("/movies/writer/:Writers", (req, res) => {
-  Movies.find({ Wrtiers: req.params.Writers })
+  Movies.find({ Writers: req.params.Writers })
     .then((movies) => {
       res.json(movies);
     })
@@ -223,23 +227,6 @@ app.put("/movies/:Title", (req, res) => {
       }
     }
   );
-});
-
-//Delete Requests
-//Deleting a Movie
-app.delete("/movies/:Title", (req, res) => {
-  Movies.findOneAndRemove({ Title: req.params.Title })
-    .then((movie) => {
-      if (!movie) {
-        res.status(400).send(req.params.Title + " was not found");
-      } else {
-        res.status(200).send(req.params.Title + " was deleted.");
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
 });
 
 // USERS
