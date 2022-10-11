@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 
+//Schema Import
 const Movies = Models.Movie;
 const Users = Models.User;
 
@@ -27,22 +28,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 let auth = require("./auth")(app);
 const passport = require("passport");
+const { session } = require("passport");
+const { json } = require("body-parser");
 require("./passport");
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
 });
 
-//Get Requests
+//Log Sheet
 app.use(morgan("combined", { stream: accessLogStream })); // Morgan default timestamp
 
 app.get("/", (req, res) => {
-  res.send("myFlix Movies API");
+  res.send("myFlix Movies API - By Bryan McGirr");
 });
 
 // MOVIES REQUESTS
 
-//GET List of Movies
+//All Movies
 app.get(
   "/movies",
   passport.authenticate("jwt", { session: false }),
@@ -58,7 +61,7 @@ app.get(
   }
 );
 
-//GET Movie by Title
+// Search by Title
 app.get(
   "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
@@ -74,12 +77,11 @@ app.get(
   }
 );
 
-//GET List of Movies by Genre
+// Search by Genres
 app.get(
   "/movies/genre/:Genres",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    //DOES NOT WORK
     Movies.find({ Genres: req.params.Genres })
       .then((movies) => {
         res.json(movies);
@@ -91,7 +93,7 @@ app.get(
   }
 );
 
-//GET List of Movies by Director
+// Search by Director
 app.get(
   "/movies/director/:Director",
   passport.authenticate("jwt", { session: false }),
@@ -107,9 +109,10 @@ app.get(
   }
 );
 
-//GET List of Movies by Writer
+//GET by Writer
 app.get(
-  "/movies/writer/:Writers",
+  //Edit
+  "/movies/writer/:Writers", //Investigate why writer works for all BUT Anthony and Joe Russo
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.find({ Writers: req.params.Writers })
@@ -122,13 +125,11 @@ app.get(
       });
   }
 );
-
-//GET List of Movies by Actor
+// Search by Actor
 app.get(
   "/movies/actor/:TopActors",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    //Null
     Movies.find({ TopActors: req.params.TopActors })
       .then((movies) => {
         res.json(movies);
@@ -140,13 +141,14 @@ app.get(
   }
 );
 
-//GET List of Movies by Ratings
+// Search by Rating
 app.get(
-  "/movies/rating/:Ratings",
+  //Edit
+  "/movies/rating/:Rating",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Null
-    Movies.find({ Ratings: req.params.Ratings })
+    Movies.find({ Rating: req.params.Rating })
       .then((movies) => {
         res.json(movies);
       })
@@ -157,9 +159,7 @@ app.get(
   }
 );
 
-//Create Requests
-
-//Create New Movie
+//Create New Movie DEV ONLY
 /* JSON Format
     {
       ID: Integer,
@@ -174,7 +174,7 @@ app.get(
       ImagePath, String,
       Featured: Boolean
     }*/
-app.post(
+/* app.post(
   "/movies",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
@@ -194,8 +194,10 @@ app.post(
             TopActors: req.body.TopActors,
             Rating: req.body.Rating,
             Runtime: req.body.Runtime,
+            ReleaseYear: req.body.ReleaseYear,
             ImagePath: req.body.ImagePath,
             Featured: req.body.Featured,
+            CinematicUniverse: req.body.CinematicUniverse,
           })
             .then((newMovie) => {
               res.status(201).json(newMovie);
@@ -211,63 +213,128 @@ app.post(
         res.status(500).send("Error: " + err);
       });
   }
-);
+); */
 
-//Upadate Requests
-/* JSON Format
-  {
-    Title: String, REQUIRED
-      Description: String, REQUIRED
-      Genres: [Array],
-      Director: [String],
-      Writers: [Array],
-      TopActors: [Array], REQUIRED
-      Rating: String, REQUIRED
-      Runtime: String,
-      ImagePath, String,
-      Featured: Boolean
-  }*/
-
-//Update Movies by Title
-app.put(
-  "/movies/:Title",
+// Search Cinematic Universes
+app.get(
+  "/movies/universe/:CinematicUniverse",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Movies.findOneAndUpdate(
-      { Title: req.params.Title },
-      {
-        $set: {
-          Title: req.body.Title,
-          Description: req.body.Description,
-          Genres: req.body.Genres,
-          Director: {
-            Name: req.body.Name,
-            Birthdate: req.body.Birthdate,
-          },
-          Writers: req.body.Writers,
-          TopActors: req.body.TopActors,
-          Rating: req.body.Rating,
-          Runtime: req.body.Runtime,
-          ImagePath: req.body.ImagePath,
-          Featured: req.body.Featured,
-        },
-      },
-      { new: true }, //Ensures updated document is returned
-      (err, updatedMovie) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send("Error: " + err);
-        } else {
-          res.json(updatedMovie);
-        }
-      }
-    );
+    Movies.find({ CinematicUniverse: req.params.CinematicUniverse })
+      .then((movies) => {
+        res.json(movies);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
   }
 );
 
+//Search by Release Year
+app.get(
+  "/movies/year/:ReleaseYear",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.find({ ReleaseYear: req.params.ReleaseYear })
+      .then((movies) => {
+        res.json(movies);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
+
+//DUAL REQUESTS
+
+//Search by Genre & Rating
+app.get(
+  "/movies/genres/:Genres/rating/:Rating",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.find({ Genres: req.params.Genres, Rating: req.params.Rating })
+      .then((movies) => {
+        res.json(movies);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
+
+// /* JSON Format
+//   {
+//     Title: String, REQUIRED
+//       Description: String, REQUIRED
+//       Genres: [Array],
+//       Director: [String],
+//       Writers: [Array],
+//       TopActors: [Array], REQUIRED
+//       Rating: String, REQUIRED
+//       Runtime: String,
+//       ImagePath, String,
+//       Featured: Boolean
+//   }*/
+
+// //Update Movies by Title DEV ONLY
+// app.put(
+//   "/movies/:Title",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res) => {
+//     Movies.findOneAndUpdate(
+//       { Title: req.params.Title },
+//       {
+//         $set: {
+//           Title: req.body.Title,
+//           Description: req.body.Description,
+//           Genres: req.body.Genres,
+//           Director: {
+//             Name: req.body.Name,
+//             Birthdate: req.body.Birthdate,
+//           },
+//           Writers: req.body.Writers,
+//           TopActors: req.body.TopActors,
+//           Rating: req.body.Rating,
+//           Runtime: req.body.Runtime,
+//           ImagePath: req.body.ImagePath,
+//           Featured: req.body.Featured,
+//         },
+//       },
+//       { new: true }, //Ensures updated document is returned
+//       (err, updatedMovie) => {
+//         if (err) {
+//           console.error(err);
+//           res.status(500).send("Error: " + err);
+//         } else {
+//           res.json(updatedMovie);
+//         }
+//       }
+//     );
+//   }
+// );
+
+// Delete code for special occasions DEV ONLY
+// app.delete("/movies/:Title", (req, res) => {
+//   Movies.findOneAndRemove({ Title: req.params.Title })
+//     .then((movie) => {
+//       if (!movie) {
+//         res.status(400).send(req.params.Title + " was not found");
+//       } else {
+//         res.status(200).send(req.params.Title + " was deleted.");
+//       }
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       res.status(500).send("Error: " + err);
+//     });
+// });
+
 // USERS
 
-//GET List of Users
+//All Users
 app.get(
   "/users",
   passport.authenticate("jwt", { session: false }),
@@ -283,7 +350,7 @@ app.get(
   }
 );
 
-//GET User by Username
+//Search by Username
 app.get(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -299,9 +366,9 @@ app.get(
   }
 );
 
-//CREATE Requests
+//
 
-//Create new User
+// User Registration
 app.post("/users", (req, res) => {
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
@@ -330,8 +397,6 @@ app.post("/users", (req, res) => {
       res.status(500).send("Error: " + err);
     });
 });
-
-//Update
 
 //Update User info by Username
 /* JSON FORMATE
@@ -368,7 +433,7 @@ app.put(
   }
 );
 
-//UPDATE Users Favorite Movies
+//Add Favorite Movies
 app.post(
   "/users/:Username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
@@ -391,9 +456,7 @@ app.post(
   }
 );
 
-//Delete
-
-// DELETE User Deregister
+// User Deregister
 app.delete(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
