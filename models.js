@@ -9,8 +9,10 @@ let movieSchema = mongoose.Schema({
   TopActors: [{ type: String, required: true }],
   Rating: { type: String, required: true },
   Runtime: String,
+  ReleaseYear: String,
   ImagePath: String,
   Featured: Boolean,
+  CinematicUniverse: String
 });
 
 let userSchema = mongoose.Schema({
