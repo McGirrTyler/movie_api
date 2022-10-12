@@ -20,11 +20,31 @@ const { repeat } = require("lodash");
 const { runInNewContext } = require("vm");
 const req = require("express/lib/request");
 const res = require("express/lib/response.js");
+const { check, validationResult } = require("express-validator");
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//Set-Up, Add once frontend is complete
+const cors = require("cors");
+let allowedOrigins = ["http://localhost:8080"]; //Add Frontend Website When Ready
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        //Message For UnAuthorized Requests
+        let message =
+          "The CORS policy for this application doesn't allow access from origin" +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 let auth = require("./auth")(app);
 const passport = require("passport");
@@ -369,34 +389,51 @@ app.get(
 //
 
 // User Registration
-app.post("/users", (req, res) => {
-  Users.findOne({ Username: req.body.Username })
-    .then((user) => {
-      if (user) {
-        return res
-          .status(400)
-          .send(req.body.Username + "This Username already exists!");
-      } else {
-        Users.create({
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        })
-          .then((newUser) => {
-            res.status(201).json(newUser);
+app.post(
+  "/users",
+  [
+    check("Username", "Username is required").isLength({ min: 5, max: 12 }),
+    check("Username", "Username is required").isAlphanumeric(),
+    check("Password", "Password is required").isLength({ min: 8 }),
+    check("Email", "Email does not appear to be valid").isEmail(),
+  ],
+  (req, res) => {
+    // Validation Check
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    // Password Auth
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    Users.findOne({ Username: req.body.Username })
+      .then((user) => {
+        if (user) {
+          return res
+            .status(400)
+            .send(req.body.Username + "This Username already exists!");
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday,
           })
-          .catch((err) => {
-            console.error(err);
-            res.status(500).send("Error: " + err);
-          });
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+            .then((newUser) => {
+              res.status(201).json(newUser);
+            })
+            .catch((err) => {
+              console.error(err);
+              res.status(500).send("Error: " + err);
+            });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 //Update User info by Username
 /* JSON FORMATE
@@ -408,28 +445,42 @@ app.post("/users", (req, res) => {
 }*/
 app.put(
   "/users/:Username",
-  passport.authenticate("jwt", { session: false }),
+  [
+    check("Username", "Username is required").isLength({ min: 5, max: 12 }),
+    check("Username", "Username is required").isAlphanumeric(),
+    check("Password", "Password is required").isLength({ min: 8 }),
+    check("Email", "Email does not appear to be valid").isEmail(),
+  ],
   (req, res) => {
-    Users.findOneAndUpdate(
-      { Username: req.params.Username },
-      {
-        $set: {
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        },
-      },
-      { new: true }, // Ensures updated document is returned
-      (err, updatedUser) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send("Error: " + err);
-        } else {
-          res.json(updatedUser);
-        }
-      }
-    );
+    // Validation Check
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    passport.authenticate("jwt", { session: false }),
+      (req, res) => {
+        Users.findOneAndUpdate(
+          { Username: req.params.Username },
+          {
+            $set: {
+              Username: req.body.Username,
+              Password: req.body.Password,
+              Email: req.body.Email,
+              Birthday: req.body.Birthday,
+            },
+          },
+          { new: true }, // Ensures updated document is returned
+          (err, updatedUser) => {
+            if (err) {
+              console.error(err);
+              res.status(500).send("Error: " + err);
+            } else {
+              res.json(updatedUser);
+            }
+          }
+        );
+      };
   }
 );
 
@@ -484,6 +535,7 @@ app.use((err, req, res, next) => {
 });
 
 // Listen for requests
-app.listen(8080, () => {
-  console.log("App Listening on port 8080");
+const port = process.env.PORT || 8080;
+app.listen(port, "0.0.0.", () => {
+  console.log("Listening on Port " + port);
 });
