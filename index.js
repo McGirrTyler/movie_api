@@ -313,10 +313,7 @@ app.put(
           Title: req.body.Title,
           Description: req.body.Description,
           Genres: req.body.Genres,
-          Director: {
-            Name: req.body.Name,
-            Birthdate: req.body.Birthdate,
-          },
+          Director: req.body.Director,
           Writers: req.body.Writers,
           TopActors: req.body.TopActors,
           Rating: req.body.Rating,
