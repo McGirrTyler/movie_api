@@ -302,41 +302,41 @@ app.get(
 //   }*/
 
 // //Update Movies by Title DEV ONLY
-// app.put(
-//   "/movies/:Title",
-//   passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     Movies.findOneAndUpdate(
-//       { Title: req.params.Title },
-//       {
-//         $set: {
-//           Title: req.body.Title,
-//           Description: req.body.Description,
-//           Genres: req.body.Genres,
-//           Director: {
-//             Name: req.body.Name,
-//             Birthdate: req.body.Birthdate,
-//           },
-//           Writers: req.body.Writers,
-//           TopActors: req.body.TopActors,
-//           Rating: req.body.Rating,
-//           Runtime: req.body.Runtime,
-//           ImagePath: req.body.ImagePath,
-//           Featured: req.body.Featured,
-//         },
-//       },
-//       { new: true }, //Ensures updated document is returned
-//       (err, updatedMovie) => {
-//         if (err) {
-//           console.error(err);
-//           res.status(500).send("Error: " + err);
-//         } else {
-//           res.json(updatedMovie);
-//         }
-//       }
-//     );
-//   }
-// );
+app.put(
+  "/movies/:Title",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.findOneAndUpdate(
+      { Title: req.params.Title },
+      {
+        $set: {
+          Title: req.body.Title,
+          Description: req.body.Description,
+          Genres: req.body.Genres,
+          Director: {
+            Name: req.body.Name,
+            Birthdate: req.body.Birthdate,
+          },
+          Writers: req.body.Writers,
+          TopActors: req.body.TopActors,
+          Rating: req.body.Rating,
+          Runtime: req.body.Runtime,
+          ImagePath: req.body.ImagePath,
+          Featured: req.body.Featured,
+        },
+      },
+      { new: true }, //Ensures updated document is returned
+      (err, updatedMovie) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedMovie);
+        }
+      }
+    );
+  }
+);
 
 // Delete code for special occasions DEV ONLY
 // app.delete("/movies/:Title", (req, res) => {
