@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Set-Up, Add once frontend is complete
 const cors = require("cors");
-let allowedOrigins = []; //Add Frontend Website When Ready
+let allowedOrigins = ["http://localhost:8080"]; //Add Frontend Website When Ready
 app.use(
   cors({
     origin: (origin, callback) => {
