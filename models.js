@@ -13,7 +13,15 @@ let movieSchema = mongoose.Schema({
   ReleaseYear: String,
   ImagePath: String,
   Featured: Boolean,
-  CinematicUniverse: String,
+  CinematicUniverse: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Universes" },
+  ],
+});
+
+let universesSchema = mongoose.Schema({
+  Name: { type: String, required: true },
+  Studio: { type: String, required: true },
+  Movies: [{ type: mongoose.Schema.Tyoes.ObjectID, ref: "Movie" }],
 });
 
 let userSchema = mongoose.Schema({
@@ -34,6 +42,9 @@ userSchema.methods.validatePassword = function (password) {
 
 let Movie = mongoose.model("Movie", movieSchema);
 let User = mongoose.model("User", userSchema);
+let Universe = mongoose.model("Universe", universesSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
+module.exports.Universe = Universe;
+

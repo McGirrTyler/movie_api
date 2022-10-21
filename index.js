@@ -4,6 +4,7 @@ const Models = require("./models.js");
 //Schema Import
 const Movies = Models.Movie;
 const Users = Models.User;
+const Universes = Models.Universe;
 
 //Testing Purposes
 /* mongoose.connect("mongodb://localhost:27017/myFlixDB", {
@@ -72,16 +73,20 @@ app.get("/", (req, res) => {
 // MOVIES REQUESTS
 
 //All Movies
-app.get("/movies", (req, res) => {
-  Movies.find()
-    .then((movies) => {
-      res.status(201).json(movies);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.find()
+      .then((movies) => {
+        res.status(201).json(movies);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 // Search by Title
 app.get(

@@ -1,0 +1,5 @@
+{"_id":{"$oid":"6350c4f82eb7403bd007d0af"},"Name":"Marvel Cinematic Universe","Studio":"Marvel Studios","Movies":""}
+{"_id":{"$oid":"6350c5092eb7403bd007d0b0"},"Name":"Conjuring Universe","Studio":"Warner Bros. Entertainment","Movies":""}
+{"_id":{"$oid":"6350c51b2eb7403bd007d0b1"},"Name":"Star Wars","Studio":"Lucasfilm Ltd."}
+{"_id":{"$oid":"6350c5272eb7403bd007d0b2"},"Name":"Rocky","Studio":"Metro-Goldwyn-Mayer","Movies":""}
+{"_id":{"$oid":"6350c52a2eb7403bd007d0b3"},"Name":"The Wizarding World","Studio":"Warner Bros. Entertainment","Movies":""}
