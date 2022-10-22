@@ -40,7 +40,7 @@ let allowedOrigins = [
   "http://localhost:8080",
   "http://localhost:1234",
   "http:localhost:4200",
-  "https://dashboard.heroku.com/apps/movieverseapi",
+  "https://movieverseapi.herokuapp.com",
 ]; //Add Frontend Website When Ready
 app.use(
   cors({
