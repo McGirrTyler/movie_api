@@ -36,13 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Set-Up, Add once frontend is complete
 const cors = require("cors");
-let allowedOrigins = [
-  "http://localhost:8080",
-  "http://localhost:1234",
-  "https://movieverseapi.herokuapp.com",
-  "https://movieverseapi.herokuapp.com/movies",
-  "https://movieverseapi.herokuapp.com/login",
-]; //Add Frontend Website When Ready
+let allowedOrigins = ["http://localhost:8080", "http://localhost:1234"]; //Add Frontend Website When Ready
 app.use(
   cors({
     origin: (origin, callback) => {
