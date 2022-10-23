@@ -4,7 +4,6 @@ const Models = require("./models.js");
 //Schema Import
 const Movies = Models.Movie;
 const Users = Models.User;
-const Universes = Models.Universe;
 
 //Testing Purposes
 /* mongoose.connect("mongodb://localhost:27017/myFlixDB", {
@@ -36,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Set-Up, Add once frontend is complete
 const cors = require("cors");
-let allowedOrigins = ["http://localhost:8080", "http://localhost:1234"]; //Add Frontend Website When Ready
+let allowedOrigins = ["http://localhost:8080"]; //Add Frontend Website When Ready
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -73,20 +72,16 @@ app.get("/", (req, res) => {
 // MOVIES REQUESTS
 
 //All Movies
-app.get(
-  "/movies",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Movies.find()
-      .then((movies) => {
-        res.status(201).json(movies);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+app.get("/movies", (req, res) => {
+  Movies.find()
+    .then((movies) => {
+      res.status(201).json(movies);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
 // Search by Title
 app.get(
