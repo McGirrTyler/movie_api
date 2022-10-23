@@ -21,7 +21,7 @@ let movieSchema = mongoose.Schema({
 let universesSchema = mongoose.Schema({
   Name: { type: String, required: true },
   Studio: { type: String, required: true },
-  Movies: [{ type: mongoose.Schema.Tyoes.ObjectID, ref: "Movie" }],
+  Movies: [{ type: mongoose.Schema.Types.ObjectID, ref: "Movie" }],
 });
 
 let userSchema = mongoose.Schema({
